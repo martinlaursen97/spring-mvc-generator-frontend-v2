@@ -1,43 +1,22 @@
 import React, {useState} from "react";
 
-import {
-    BrowserRouter,
-        Switch,
-        Route,
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-} from "react-router-dom";
-
-import LoginForm from "./components/LoginForm";
-import HTTP from "./components/HTTP"
+import Login from "./components/Login";
+import Projects from "./components/Projects";
+import Register from "./components/Register";
 
 function App() {
 
-
-    const [user, setUser] = useState({email: "", password: ""});
-    const [error, setError] = useState("");
-
-    const Login = async details => {
-        console.log(details);
-        let response = await HTTP.create(details, "users/verify");
-        if (response.status === 200) {
-            let data = response.data;
-            setUser({email: data.email, password: data.password});
-        }
-    }
-
-    const Logout = () => {
-
-    }
-
     return (
-      <div className="App">
-          {(user.email != "") ? (
-              <div className="welcome">
-                  <h2>Welcome, <span>{user.name}</span></h2>
-              </div>
-          ) : <LoginForm Login={Login} error={error}/>}
-      </div>
-    );
+        <Router>
+            <Switch>
+                <Route path="/projects" component={Projects}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/register" component={Register}/>
+            </Switch>
+        </Router>
+    )
 }
 
 export default App;
