@@ -60,6 +60,14 @@ body {
     right: 20px;
     top: 5px;
     font-size: 30px;
+    text-anchor: start;
 
+}
+
+.box {
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
