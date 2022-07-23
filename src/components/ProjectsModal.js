@@ -4,14 +4,27 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
 import {useState} from "react";
 import {InputGroup} from "react-bootstrap";
+import CRUD from "../api/CRUD";
 
 export default function ProjectsModal({ open, title, onClose }) {
     const [name, setName] = useState("");
 
     if (!open) return null;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (name.length > 0) {
+            let project = {
+                user: {
+                    id: window.sessionStorage.getItem("userId")
+                },
+                name: name
+            }
+
+            await CRUD.create(project, "projects").then(onClose);
+
+        }
     }
 
     return ReactDom.createPortal(
