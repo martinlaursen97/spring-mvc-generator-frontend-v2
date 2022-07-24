@@ -1,11 +1,14 @@
 import {Link, useHistory} from "react-router-dom";
 import {useEffect, useState} from "react";
 import CRUD from "../../api/CRUD";
+import ProjectsModal from "../ProjectsModal";
+import EntityModal from "../EntityModal";
 
 export default function Project() {
 
     let history = useHistory();
-    const [entities, setEntities] = useState([]);
+    const [entities, setEntities] = useState([])
+    const [entityIsOpen, setEntityIsOpen] = useState(false);
 
     let projectId = localStorage.getItem("projectId");
 
@@ -17,7 +20,7 @@ export default function Project() {
     })
 
     const createEntity = () => {
-
+        setEntityIsOpen(true);
     }
 
     const downloadProject = () => {
@@ -46,6 +49,9 @@ export default function Project() {
 
     return (
         <div className="d-flex" id="wrapper">
+
+            <EntityModal title={"New entity"} open={entityIsOpen} onClose={() => setEntityIsOpen(false)}/>
+
             <div className="bg-light" id="sidebar-wrapper">
                 <div className="sidebar-heading">
                     Entities
