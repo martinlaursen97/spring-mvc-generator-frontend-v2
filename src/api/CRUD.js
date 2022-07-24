@@ -1,12 +1,12 @@
 import axios from 'axios';
 const baseUrl = "http://localhost:8080/api/";
 
-function getAll() {
-    const request = axios.get(baseUrl);
-    return request.then(response => response.data);
+function getAll(resource) {
+    return axios.get(`${baseUrl}${resource}`);
 }
 
 function create(newObject, resource) {
+
     return axios.post(`${baseUrl}${resource}`, newObject);
 }
 
