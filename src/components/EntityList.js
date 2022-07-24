@@ -1,15 +1,14 @@
-import {useHistory} from "react-router-dom";
+export default function EntityList({ entities, setEntity }) {
 
-export default function EntityList({ entities }) {
-
-    const loadEntity = id => {
-        localStorage.setItem("entityId", id);
+    const loadEntity = e => {
+        setEntity(e);
+        localStorage.setItem("entityId", e.id);
     }
 
     return (
         <div className="list-group">
             {entities.map(e =>
-                <div className="list-group-item list-group-item-action" onClick={() => loadEntity(e.id)}>{e.name}</div>
+                <div className="list-group-item list-group-item-action" onClick={() => loadEntity(e)}>{e.name}</div>
             )}
         </div>
     );

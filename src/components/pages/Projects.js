@@ -1,6 +1,6 @@
 import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
-import ProjectsModal from "../ProjectsModal";
+import ProjectsModal from "../modals/ProjectsModal";
 import CRUD from "../../api/CRUD";
 import ProjectsList from "../ProjectsList";
 
@@ -38,9 +38,8 @@ export default function Projects() {
         <div>
             <Link type="button" id="top-right-href" onClick={logout}>Logout</Link>
 
-            <ProjectsModal title={"New project"} open={isOpen} onClose={() => setIsOpen(false)}>
-                modal
-            </ProjectsModal>
+            <ProjectsModal title={"New project"} open={isOpen} onClose={() => setIsOpen(false)}/>
+
 
             <div className="container shadow p-3 mb-5 bg-white rounded w-50 p-4 " style={{marginTop: 200}}>
                 <h1 className="display-6 p-1" style={{display: 'inline-block'}}>Projects</h1>

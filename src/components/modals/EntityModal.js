@@ -4,9 +4,9 @@ import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import CRUD from "../api/CRUD";
+import CRUD from "../../api/CRUD";
 
-export default function EntityModal({ open, title, onClose, setEntities }) {
+export default function EntityModal({ open, title, onClose }) {
     const [name, setName] = useState("");
 
     const [hasCreate, setHasCreate]   = useState(true);
@@ -37,7 +37,7 @@ export default function EntityModal({ open, title, onClose, setEntities }) {
                 .then(onClose);
 
             resetStates(true);
-            setEntities(...createObj);
+
 
         }
     }

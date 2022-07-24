@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
 import {useState} from "react";
 import {InputGroup} from "react-bootstrap";
-import CRUD from "../api/CRUD";
+import CRUD from "../../api/CRUD";
 
 export default function ProjectsModal({ open, title, onClose, setProjects }) {
     const [name, setName] = useState("");
