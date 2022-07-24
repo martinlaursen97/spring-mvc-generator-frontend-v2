@@ -12,8 +12,18 @@ body {
     -o-transition: margin .25s ease-out;
     transition: margin .25s ease-out;
 
+    box-shadow: 3px 0px 10px lightgray;
+    z-index: 1;
 
 
+
+}
+
+#create-entity-btn {
+    height:40px;
+    width:40px;
+    float:right;
+    margin-bottom:15px;
 }
 
 #sidebar-wrapper .sidebar-heading {

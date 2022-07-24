@@ -6,8 +6,8 @@ export default function ProjectsList({ projects }) {
     let history = useHistory();
 
     const loadProject = id => {
+        localStorage.setItem("projectId", id);
         history.push("/project");
-        alert(JSON.stringify(projects[0]))
     }
 
     return (
