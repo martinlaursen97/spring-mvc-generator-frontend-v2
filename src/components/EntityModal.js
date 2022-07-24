@@ -32,7 +32,7 @@ export default function EntityModal({ open, title, onClose, setEntities }) {
                 hasUpdate: hasUpdate,
                 hasDelete: hasDelete
             }
-            alert(JSON.stringify(entity));
+
             let createObj = await CRUD.create(entity, "entities")
                 .then(onClose);
 

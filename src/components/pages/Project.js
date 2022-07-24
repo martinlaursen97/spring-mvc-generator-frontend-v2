@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import CRUD from "../../api/CRUD";
 import ProjectsModal from "../ProjectsModal";
 import EntityModal from "../EntityModal";
+import VariableList from "../VariableList";
+import RelationshipList from "../RelationshipList";
+import EntityList from "../EntityList";
 
 export default function Project() {
 
@@ -62,9 +65,7 @@ export default function Project() {
 
                 <hr/>
 
-                <div className="list-group">
-
-                </div>
+                <EntityList entities={entities}/>
 
                 <div className="sidebar-heading w-100 position-absolute" style={{bottom:0, borderTop: '1px solid lightgrey'}}>
                     <button onClick={downloadProject()} type="button" style={{height:80, width:200}} className="btn btn-outline-dark">
@@ -93,9 +94,7 @@ export default function Project() {
                         +
                     </button>
 
-                    <div className="list-group" id="variable-list">
-
-                    </div>
+                    <VariableList/>
 
                     <hr/>
 
@@ -107,9 +106,8 @@ export default function Project() {
                         +
                     </button>
 
-                    <div className="list-group" id="relationship-list">
+                    <RelationshipList/>
 
-                    </div>
                 </div>
             </div>
                 :
