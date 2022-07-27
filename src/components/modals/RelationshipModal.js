@@ -11,10 +11,10 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
     entities = entities.filter(e => e.name !== entity.name);
 
-
+    let name = entities[0] === undefined ? "undefined" : entities[0].name;
 
     const [annotation, setAnnotation] = useState("ManyToOne");
-    const [entityChoice, setEntityChoice] = useState("");
+    const [entityChoice, setEntityChoice] = useState(name);
 
     if (!open) return null;
 
@@ -37,11 +37,13 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                 entity.relations.push(res.data)
                 setEntity(entity);
             })
+            .then(resetStates)
             .then(onClose);
     }
 
     const resetStates = () => {
         setAnnotation("ManyToOne");
+        setEntityChoice(name);
     }
 
     const close = () => {
@@ -68,8 +70,6 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            {annotation}
-                            {entityChoice}
                             <InputGroup.Text id="inputGroup-sizing-default2">Entity</InputGroup.Text>
                             <Form.Select onClick={e => setEntityChoice(e.target.value)} aria-label="Default select example">
                                 {entities.map(e =>

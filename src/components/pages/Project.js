@@ -14,7 +14,7 @@ export default function Project() {
 
     let history = useHistory();
     const [entities, setEntities] = useState([])
-    const [entity, setEntity] = useState({name:"t"});
+    const [entity, setEntity] = useState({});
     const [entityIsOpen, setEntityIsOpen] = useState(false);
     const [variableIsOpen, setVariableIsOpen] = useState(false);
     const [relationshipIsOpen, setRelationshipIsOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function Project() {
             .then(response => {
                 setEntities(response.data);
             })
-    }, []);
+    }, [projectId]);
 
     let userId = window.sessionStorage.getItem("userId");
     let authorized = userId !== null;
