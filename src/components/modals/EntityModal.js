@@ -6,8 +6,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
-export default function EntityModal({ open, title, onClose }) {
+export default function EntityModal({ open, title, onClose, entities, setEntities }) {
     const [name, setName] = useState("");
+
 
     const [hasCreate, setHasCreate]   = useState(true);
     const [hasReadAll, setHasReadAll] = useState(true);
@@ -33,7 +34,12 @@ export default function EntityModal({ open, title, onClose }) {
                 hasDelete: hasDelete
             }
 
-            let createObj = await CRUD.create(entity, "entities")
+            await CRUD.create(entity, "entities")
+                .then(res => {
+                    let data = res.data;
+                    entities.push(data);
+                    setEntities(entities);
+                })
                 .then(onClose);
 
             resetStates(true);

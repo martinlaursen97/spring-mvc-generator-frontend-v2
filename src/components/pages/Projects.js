@@ -7,6 +7,9 @@ import ProjectsList from "../ProjectsList";
 
 export default function Projects() {
 
+
+
+
     let history = useHistory()
     let userId = window.sessionStorage.getItem("userId");
     let authorized = userId !== null;
@@ -18,7 +21,7 @@ export default function Projects() {
             .then(response => {
                 setProjects(response.data);
             })
-    })
+    }, [])
 
     if (!authorized) {
         return <Redirect to="/login"/>

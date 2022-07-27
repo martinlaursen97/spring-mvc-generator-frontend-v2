@@ -7,25 +7,26 @@ import VariableList from "../VariableList";
 import RelationshipList from "../RelationshipList";
 import EntityList from "../EntityList";
 import VariableModal from "../modals/VariableModal";
+import RelationshipModal from "../modals/RelationshipModal";
 
 export default function Project() {
 
+
     let history = useHistory();
     const [entities, setEntities] = useState([])
-    const [entity, setEntity] = useState({});
+    const [entity, setEntity] = useState({name:"t"});
     const [entityIsOpen, setEntityIsOpen] = useState(false);
     const [variableIsOpen, setVariableIsOpen] = useState(false);
-
+    const [relationshipIsOpen, setRelationshipIsOpen] = useState(false);
 
     let projectId = localStorage.getItem("projectId");
-    let entityId = localStorage.getItem("entityId");
 
     useEffect(() => {
         CRUD.getAll(`entities/project/${projectId}`)
             .then(response => {
                 setEntities(response.data);
             })
-    });
+    }, []);
 
     let userId = window.sessionStorage.getItem("userId");
     let authorized = userId !== null;
@@ -54,7 +55,7 @@ export default function Project() {
     }
 
     const createRelation = () => {
-
+        setRelationshipIsOpen(true);
     }
 
     const createVariable = () => {
@@ -64,8 +65,9 @@ export default function Project() {
     return (
         <div className="d-flex" id="wrapper">
 
-            <EntityModal title={"New entity"} open={entityIsOpen} onClose={() => setEntityIsOpen(false)}/>
+            <EntityModal title={"New entity"} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
             <VariableModal title={"New variable"} entity={entity} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
+            <RelationshipModal title={"New variable"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 
             <div className="bg-light" id="sidebar-wrapper">
                 <div className="sidebar-heading">
@@ -118,7 +120,7 @@ export default function Project() {
                         +
                     </button>
 
-                    <RelationshipList/>
+                    <RelationshipList entity={entity}/>
 
                 </div>
             </div>

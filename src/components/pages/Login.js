@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import CRUD from "../../api/CRUD.js";
-import {BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation} from "react-router-dom";
-import Projects from "./Projects";
-import Register from "./Register";
+import {Link, Redirect, Route, Switch, useHistory, useLocation} from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import SuccessBox from "../SuccessBox"
 
@@ -11,7 +9,6 @@ export default function Login() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [details, setDetails] = useState({email: "", password: ""});
-
     let history = useHistory();
 
     const location = useLocation();
