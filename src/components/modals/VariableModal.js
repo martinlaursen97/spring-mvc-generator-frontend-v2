@@ -10,6 +10,7 @@ export default function VariableModal({ open, title, onClose, entity, setEntity 
     const [name, setName] = useState("");
     const [dataType, setDataType] = useState("");
     const [columnName, setColumnName] = useState("");
+    const [hasColumn, setHasColumn] = useState(false);
 
     if (!open) return null;
 
@@ -40,6 +41,7 @@ export default function VariableModal({ open, title, onClose, entity, setEntity 
         setName("");
         setDataType("");
         setColumnName("");
+        setHasColumn(false);
     }
 
     return ReactDom.createPortal(
@@ -72,8 +74,9 @@ export default function VariableModal({ open, title, onClose, entity, setEntity 
 
                             />
                         </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="inputGroup-sizing-default3">Column name</InputGroup.Text>
+                        { hasColumn ?
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="inputGroup-sizing-default3">Column name</InputGroup.Text>
                                 <Form.Control
                                     type="text"
                                     aria-label="Default"
@@ -81,8 +84,18 @@ export default function VariableModal({ open, title, onClose, entity, setEntity 
                                     onChange={e => setColumnName(e.target.value)}
                                     value={columnName}
 
-                            />
-                        </InputGroup>
+                                />
+                            </InputGroup>
+                            :
+                            <fieldset disabled>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="inputGroup-sizing-default3">Column name</InputGroup.Text><Form.Control
+
+                                />
+                            </InputGroup>
+                            </fieldset>
+                        }
+                        <Form.Check onChange={(e) => setHasColumn(e.target.checked)} checked={hasColumn}  label="Choose column name?" inline/>
                     </Modal.Body>
 
                     <Modal.Footer>
