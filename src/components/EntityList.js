@@ -2,7 +2,7 @@ export default function EntityList({ entities, setEntity }) {
 
     const loadEntity = e => {
         setEntity(e);
-        localStorage.setItem("entityId", e.id);
+
     }
 
     return (

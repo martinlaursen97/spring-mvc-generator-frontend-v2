@@ -40,6 +40,7 @@ export default function Project() {
         }
     }
 
+
     const createEntity = () => {
         setEntityIsOpen(true);
     }
@@ -73,7 +74,7 @@ export default function Project() {
 
             <EntityModal title={"New entity"} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
             <VariableModal title={"New variable"} entity={entity} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
-            <RelationshipModal title={"New variable"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
+            <RelationshipModal title={"New relationship"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 
             <div className="bg-light" id="sidebar-wrapper">
                 <div className="sidebar-heading">
