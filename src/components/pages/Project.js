@@ -34,6 +34,12 @@ export default function Project() {
         return <Redirect to="/login"/>
     }
 
+    if (Object.keys(entity).length === 0) {
+        if (entities[0] !== undefined) {
+            setEntity(entities[0]);
+        }
+    }
+
     const createEntity = () => {
         setEntityIsOpen(true);
     }
