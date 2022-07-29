@@ -37,8 +37,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                 entity.relations.push(res.data)
                 setEntity(entity);
             })
-            .then(resetStates)
-            .then(onClose);
+            .then(close);
     }
 
     const resetStates = () => {

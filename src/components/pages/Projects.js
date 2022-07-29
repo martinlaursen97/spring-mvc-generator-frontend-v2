@@ -8,8 +8,6 @@ import ProjectsList from "../ProjectsList";
 export default function Projects() {
 
 
-
-
     let history = useHistory()
     let userId = window.sessionStorage.getItem("userId");
     let authorized = userId !== null;
@@ -41,7 +39,7 @@ export default function Projects() {
         <div>
             <Link type="button" id="top-right-href" onClick={logout}>Logout</Link>
 
-            <ProjectsModal title={"New project"} open={isOpen} onClose={() => setIsOpen(false)}/>
+            <ProjectsModal title={"New project"} open={isOpen} projects={projects} setProjects={setProjects} onClose={() => setIsOpen(false)}/>
 
 
             <div className="container shadow p-3 mb-5 bg-white rounded w-50 p-4 " style={{marginTop: 200}}>

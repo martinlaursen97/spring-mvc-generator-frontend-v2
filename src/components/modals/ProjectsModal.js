@@ -6,7 +6,7 @@ import {useState} from "react";
 import {InputGroup} from "react-bootstrap";
 import CRUD from "../../api/CRUD";
 
-export default function ProjectsModal({ open, title, onClose, setProjects }) {
+export default function ProjectsModal({ open, title, onClose, projects, setProjects }) {
     const [name, setName] = useState("");
 
     if (!open) return null;
@@ -22,10 +22,18 @@ export default function ProjectsModal({ open, title, onClose, setProjects }) {
                 name: name
             }
 
-            let createObj = await CRUD.create(project, "projects").then(onClose);
-            setProjects(...createObj);
-
+            await CRUD.create(project, "projects")
+                .then(res => {
+                    projects.push(res.data);
+                    setProjects(projects);
+                })
+                .then(resetStates)
+                .then(onClose);
         }
+    }
+
+    const resetStates = () => {
+        setName("");
     }
 
     return ReactDom.createPortal(
