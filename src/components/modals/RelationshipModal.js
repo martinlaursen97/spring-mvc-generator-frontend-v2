@@ -15,6 +15,8 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
     const [annotation, setAnnotation] = useState("ManyToOne");
     const [entityChoice, setEntityChoice] = useState(name);
+    const [entityChoiceOnChange, setEntityChoiceOnChange] = useState("");
+    const [fromDropdown, setFromDropdown] = useState(true);
 
     if (!open) return null;
 
@@ -27,7 +29,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                 id: entity.id
             },
             annotation: annotation,
-            relatedTo: entityChoice
+            relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
         };
 
 
@@ -43,6 +45,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const resetStates = () => {
         setAnnotation("ManyToOne");
         setEntityChoice(name);
+        //setFromDropdown(true);
     }
 
     const close = () => {
@@ -68,15 +71,25 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                             </Form.Select>
 
                         </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="inputGroup-sizing-default2">Entity</InputGroup.Text>
-                            <Form.Select onClick={e => setEntityChoice(e.target.value)} aria-label="Default select example">
-                                {entities.map(e =>
-                                    <option value={e.name}>{e.name}</option>
-                                )}
-                            </Form.Select>
-
-                        </InputGroup>
+                        { fromDropdown ?
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="inputGroup-sizing-default2">Entity</InputGroup.Text>
+                                <Form.Select onClick={e => setEntityChoice(e.target.value)}
+                                             aria-label="Default select example">
+                                    {entities.map(e =>
+                                        <option value={e.name}>{e.name}</option>
+                                    )}
+                                </Form.Select>
+                            </InputGroup>
+                            :
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="inputGroup-sizing-default3">
+                                    Entity
+                                </InputGroup.Text>
+                                <Form.Control onChange={e => setEntityChoiceOnChange(e.target.value)} value={entityChoiceOnChange}/>
+                            </InputGroup>
+                        }
+                        <Form.Check onChange={(e) => setFromDropdown(e.target.checked)} checked={fromDropdown}  label="Choose from dropdown?" inline/>
                     </Modal.Body>
 
                     <Modal.Footer>

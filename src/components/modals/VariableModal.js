@@ -88,11 +88,12 @@ export default function VariableModal({ open, title, onClose, entity, setEntity 
                             </InputGroup>
                             :
                             <fieldset disabled>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="inputGroup-sizing-default3">Column name</InputGroup.Text><Form.Control
-
-                                />
-                            </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text id="inputGroup-sizing-default3">
+                                        Column name
+                                    </InputGroup.Text>
+                                    <Form.Control/>
+                                </InputGroup>
                             </fieldset>
                         }
                         <Form.Check onChange={(e) => setHasColumn(e.target.checked)} checked={hasColumn}  label="Choose column name?" inline/>
