@@ -4,9 +4,7 @@ import ProjectsModal from "../modals/ProjectsModal";
 import CRUD from "../../api/CRUD";
 import ProjectsList from "../ProjectsList";
 
-
 export default function Projects() {
-
 
     let history = useHistory()
     let userId = window.sessionStorage.getItem("userId");
@@ -34,13 +32,11 @@ export default function Projects() {
         setIsOpen(true);
     }
 
-
     return (
         <div>
             <Link type="button" id="top-right-href" onClick={logout}>Logout</Link>
 
             <ProjectsModal title={"New project"} open={isOpen} projects={projects} setProjects={setProjects} onClose={() => setIsOpen(false)}/>
-
 
             <div className="container shadow p-3 mb-5 bg-white rounded w-50 p-4 " style={{marginTop: 200}}>
                 <h1 className="display-6 p-1" style={{display: 'inline-block'}}>Projects</h1>

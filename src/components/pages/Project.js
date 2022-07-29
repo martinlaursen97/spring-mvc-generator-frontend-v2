@@ -11,8 +11,8 @@ import RelationshipModal from "../modals/RelationshipModal";
 
 export default function Project() {
 
-
     let history = useHistory();
+
     const [entities, setEntities] = useState([])
     const [entity, setEntity] = useState({});
     const [entityIsOpen, setEntityIsOpen] = useState(false);
@@ -39,7 +39,6 @@ export default function Project() {
             setEntity(entities[0]);
         }
     }
-
 
     const createEntity = () => {
         setEntityIsOpen(true);

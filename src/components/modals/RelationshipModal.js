@@ -23,7 +23,6 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         let relation = {
             entity: {
                 id: entity.id
@@ -31,8 +30,6 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
             annotation: annotation,
             relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
         };
-
-
 
         await CRUD.create(relation, "relations")
             .then(res => {
@@ -51,7 +48,6 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const close = () => {
         resetStates();
         onClose();
-
     }
 
     return ReactDom.createPortal(
