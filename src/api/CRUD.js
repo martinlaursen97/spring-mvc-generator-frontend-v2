@@ -11,8 +11,7 @@ function create(newObject, resource) {
 }
 
 function update(newObject, resource, id) {
-    const request = axios.put(`${baseUrl}/${resource}/${id}`, newObject)
-    return request.then(response => response.data)
+    return axios.put(`${baseUrl}${resource}/${id}`, newObject);
 }
 
 export default {

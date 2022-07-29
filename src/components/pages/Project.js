@@ -13,9 +13,12 @@ export default function Project() {
 
     let history = useHistory();
 
-    const [entities, setEntities] = useState([])
+    const [entities, setEntities] = useState([]);
+
     const [entity, setEntity] = useState({});
+    const [modalMethod, setModalMethod] = useState("");
     const [entityIsOpen, setEntityIsOpen] = useState(false);
+
     const [variableIsOpen, setVariableIsOpen] = useState(false);
     const [relationshipIsOpen, setRelationshipIsOpen] = useState(false);
 
@@ -41,6 +44,7 @@ export default function Project() {
     }
 
     const createEntity = () => {
+        setModalMethod("POST");
         setEntityIsOpen(true);
     }
 
@@ -53,6 +57,8 @@ export default function Project() {
     }
 
     const updateEntity = () => {
+        setModalMethod("PUT");
+        setEntityIsOpen(true);
 
     }
 
@@ -61,6 +67,7 @@ export default function Project() {
     }
 
     const createRelation = () => {
+        setModalMethod("POST");
         setRelationshipIsOpen(true);
     }
 
@@ -71,7 +78,15 @@ export default function Project() {
     return (
         <div className="d-flex" id="wrapper">
 
-            <EntityModal title={"New entity"} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
+            {
+                modalMethod === "PUT" ?
+                    <EntityModal title={"Update entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
+                    :
+
+                    <EntityModal title={"New entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
+
+            }
+
             <VariableModal title={"New variable"} entity={entity} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
             <RelationshipModal title={"New relationship"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 
@@ -101,8 +116,8 @@ export default function Project() {
                 <h1 className="display-3 p-1" id="page-entity-name" style={{display: 'inline-block', marginTop: 45}}>
                     {entity.name}
                 </h1>
-                <button onClick={updateEntity} type="button" className="btn btn-outline-dark btn-lg" style={{marginBottom: 30, marginLeft: 10}}
-                        >Update
+                <button onClick={updateEntity} type="button" className="btn btn-outline-dark btn-lg" style={{marginBottom: 30, marginLeft: 10}}>
+                    Update
                 </button>
                 <button onClick={deleteCurrentEntity} type="button" className="btn btn-outline-danger btn-lg" style={{marginBottom: 30}}>
                     Delete

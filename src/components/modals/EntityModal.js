@@ -6,15 +6,28 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
-export default function EntityModal({ open, title, onClose, entities, setEntities }) {
-    const [name, setName] = useState("");
+export default function EntityModal({ open, title, onClose, entities, setEntities, entity, modalMethod }) {
+
+    let isPut = modalMethod === "PUT";
 
 
-    const [hasCreate, setHasCreate]   = useState(true);
-    const [hasReadAll, setHasReadAll] = useState(true);
-    const [hasRead, setHasRead]       = useState(true);
-    const [hasUpdate, setHasUpdate]   = useState(true);
-    const [hasDelete, setHasDelete]   = useState(true);
+
+    const [name, setName] = useState(isPut ? entity.name : "");
+
+    alert(name)
+
+
+    const [hasCreate, setHasCreate]   = useState(isPut ? entity.hasCreate  : true);
+    const [hasReadAll, setHasReadAll] = useState(isPut ? entity.hasReadAll : true);
+    const [hasRead, setHasRead]       = useState(isPut ? entity.hasRead    : true);
+    const [hasUpdate, setHasUpdate]   = useState(isPut ? entity.hasUpdate  : true);
+    const [hasDelete, setHasDelete]   = useState(isPut ? entity.hasDelete  : true);
+
+    //alert(initialBool)
+    //alert("c: " + hasCreate + " ra: " + hasReadAll + " r: " +hasRead + " u: " + hasUpdate + " d: " + hasDelete);
+    //alert("c: " + entity.hasCreate + " ra: " + entity.hasReadAll + " r: " + entity.hasRead + " u: " + entity.hasUpdate + " d: " + entity.hasDelete);
+    //alert(JSON.stringify(entity))
+
 
     if (!open) return null;
 
@@ -22,30 +35,44 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
         e.preventDefault();
 
         if (name.length > 0) {
-            let entity = {
-                project: {
-                    id: window.localStorage.getItem("projectId")
-                },
-                name: name,
-                hasCreate: hasCreate,
-                hasReadAll: hasReadAll,
-                hasRead: hasRead,
-                hasUpdate: hasUpdate,
-                hasDelete: hasDelete
+            if (modalMethod === "POST") {
+                let entity = {
+                    project: {
+                        id: window.localStorage.getItem("projectId")
+                    },
+                    name: name,
+                    hasCreate: hasCreate,
+                    hasReadAll: hasReadAll,
+                    hasRead: hasRead,
+                    hasUpdate: hasUpdate,
+                    hasDelete: hasDelete
+                }
+
+                await CRUD.create(entity, "entities")
+                    .then(res => {
+                        let data = res.data;
+                        entities.push(data);
+                        setEntities(entities);
+                    })
+                    .then(onClose);
+            } else {
+                entity.name = name;
+                entity.hasCreate = hasCreate;
+                entity.hasReadAll = hasReadAll;
+                entity.hasRead = hasRead;
+                entity.hasUpdate = hasUpdate;
+                entity.hasDelete = hasDelete;
+
+                await CRUD.update(entity, "entities", entity.id)
+                    .then(onClose);
             }
-
-            await CRUD.create(entity, "entities")
-                .then(res => {
-                    let data = res.data;
-                    entities.push(data);
-                    setEntities(entities);
-                })
-                .then(onClose);
-
             resetStates(true);
-
-
         }
+    }
+
+    const close = () => {
+        resetStates(true);
+        onClose();
     }
 
     const resetStates = (bool) => {
@@ -60,8 +87,8 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     return ReactDom.createPortal(
         <div className="overlay">
             <Modal.Dialog>
-                <Modal.Header closeButton onClick={onClose}>
-                    <Modal.Title>{title}</Modal.Title>
+                <Modal.Header closeButton onClick={close}>
+                    <Modal.Title>{isPut ? entity.name : title}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -88,8 +115,8 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={onClose}>Close</Button>
-                    <Button variant="primary" onClick={handleSubmit}>Save</Button>
+                    <Button variant="secondary" onClick={close}>Close</Button>
+                    <Button variant="primary" onClick={handleSubmit}>{isPut ? "Update" : "Save" } </Button>
                 </Modal.Footer>
             </Modal.Dialog>
         </div>
