@@ -1,5 +1,5 @@
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import CRUD from "../../api/CRUD";
 import ProjectsModal from "../modals/ProjectsModal";
 import EntityModal from "../modals/EntityModal";
@@ -9,7 +9,7 @@ import EntityList from "../EntityList";
 import VariableModal from "../modals/VariableModal";
 import RelationshipModal from "../modals/RelationshipModal";
 
-export default function Project() {
+export default function Project(callback, deps) {
 
     let history = useHistory();
 
@@ -30,6 +30,17 @@ export default function Project() {
                 setEntities(response.data);
             })
     }, [projectId]);
+
+    const deleteCurrentEntity = useCallback(async () => {
+        if (entities.length > 0) {
+            CRUD.remove("entities", entity.id).then(() => {
+                let newArr = entities.filter(e => e.id !== entity.id);
+                setEntities(newArr);
+                setEntity(newArr[0]);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [entities, entity.id !== undefined ? entity.id : 0])
 
     let userId = window.sessionStorage.getItem("userId");
     let authorized = userId !== null;
@@ -62,12 +73,7 @@ export default function Project() {
 
     }
 
-    const deleteCurrentEntity = () => {
-        CRUD.remove("entities", entity.id).then(() => {
-                setEntities(entities.filter(e => e.id !== entity.id));
-            setEntity(entities[0]);
-        });
-    }
+
 
     const createRelation = () => {
         setModalMethod("POST");
@@ -103,7 +109,7 @@ export default function Project() {
 
                 <hr/>
 
-                <EntityList entities={entities} setEntity={setEntity}/>
+                <EntityList entity={entity} entities={entities} setEntity={setEntity}/>
 
                 <div className="sidebar-heading w-100 position-absolute" style={{bottom:0, borderTop: '1px solid lightgrey'}}>
                     <button onClick={downloadProject()} type="button" style={{height:80, width:200}} className="btn btn-outline-dark">

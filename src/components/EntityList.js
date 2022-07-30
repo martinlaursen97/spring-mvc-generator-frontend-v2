@@ -1,4 +1,4 @@
-export default function EntityList({ entities, setEntity }) {
+export default function EntityList({ entity, entities, setEntity }) {
 
     const loadEntity = e => {
         setEntity(e);
@@ -8,7 +8,7 @@ export default function EntityList({ entities, setEntity }) {
     return (
         <div className="list-group">
             {entities.map(e =>
-                <div className="list-group-item list-group-item-action" onClick={() => loadEntity(e)}>{e.name}</div>
+                <div className={`list-group-item list-group-item-action ${e === entity ? "active" : ""}`} onClick={() => loadEntity(e)}>{e.name}</div>
             )}
         </div>
     );
