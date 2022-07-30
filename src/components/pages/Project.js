@@ -8,7 +8,7 @@ import EntityList from "../EntityList";
 import VariableModal from "../modals/VariableModal";
 import RelationshipModal from "../modals/RelationshipModal";
 
-export default function Project(callback, deps) {
+export default function Project() {
 
     let history = useHistory();
 
