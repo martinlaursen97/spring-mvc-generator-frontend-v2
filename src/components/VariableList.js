@@ -8,7 +8,7 @@ export default function VariableList({ entity }) {
             { variables !== null ?
                 <div className="list-group">
                     {variables.map(v =>
-                        <div className="list-group-item list-group-item-action">private {v.dataType} {v.name}</div>
+                        <div key={v.id} className="list-group-item list-group-item-action">private {v.dataType} {v.name}</div>
                     )}
                 </div>
                 :

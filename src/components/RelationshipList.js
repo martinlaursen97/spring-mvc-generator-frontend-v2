@@ -6,7 +6,7 @@ export default function RelationshipList({ entity }) {
             {relations !== null ?
                 <div className="list-group">
                     {relations.map(r =>
-                        <div className="list-group-item list-group-item-action">{r.annotation} {r.relatedTo}</div>
+                        <div key={r.id} className="list-group-item list-group-item-action">{r.annotation} {r.relatedTo}</div>
                     )}
                 </div>
                 :

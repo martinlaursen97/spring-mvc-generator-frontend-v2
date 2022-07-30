@@ -12,6 +12,8 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
 
     const [name, setName] = useState(isPut ? entity.name : "");
 
+    console.log(isPut ? entity.name : "")
+
     const [hasCreate , setHasCreate ] = useState(isPut ? entity.hasCreate  : true);
     const [hasReadAll, setHasReadAll] = useState(isPut ? entity.hasReadAll : true);
     const [hasRead   , setHasRead   ] = useState(isPut ? entity.hasRead    : true);
@@ -68,12 +70,12 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     }
 
     const resetStates = (bool) => {
-        //setName("");
-        //setHasCreate(bool);
-        //setHasReadAll(bool);
-        //setHasRead(bool);
-        //setHasUpdate(bool);
-        //setHasDelete(bool);
+        setName("");
+        setHasCreate(bool);
+        setHasReadAll(bool);
+        setHasRead(bool);
+        setHasUpdate(bool);
+        setHasDelete(bool);
     }
 
     return ReactDom.createPortal(
