@@ -14,8 +14,13 @@ function update(newObject, resource, id) {
     return axios.put(`${baseUrl}${resource}/${id}`, newObject);
 }
 
+function remove(resource, id) {
+    return axios.delete(`${baseUrl}${resource}/${id}`);
+}
+
 export default {
     getAll,
     create,
-    update
+    update,
+    remove
 }

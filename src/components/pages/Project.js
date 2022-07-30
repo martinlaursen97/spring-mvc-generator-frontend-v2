@@ -63,7 +63,10 @@ export default function Project() {
     }
 
     const deleteCurrentEntity = () => {
-
+        CRUD.remove("entities", entity.id).then(() => {
+                setEntities(entities.filter(e => e.id !== entity.id));
+            setEntity(entities[0]);
+        });
     }
 
     const createRelation = () => {

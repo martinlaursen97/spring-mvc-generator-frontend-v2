@@ -8,26 +8,20 @@ import CRUD from "../../api/CRUD";
 
 export default function EntityModal({ open, title, onClose, entities, setEntities, entity, modalMethod }) {
 
-    let isPut = modalMethod === "PUT";
 
+    let isPut = modalMethod === "PUT";
 
 
     const [name, setName] = useState(isPut ? entity.name : "");
 
-    alert(name)
-
-
-    const [hasCreate, setHasCreate]   = useState(isPut ? entity.hasCreate  : true);
+    const [hasCreate , setHasCreate ] = useState(isPut ? entity.hasCreate  : true);
     const [hasReadAll, setHasReadAll] = useState(isPut ? entity.hasReadAll : true);
-    const [hasRead, setHasRead]       = useState(isPut ? entity.hasRead    : true);
-    const [hasUpdate, setHasUpdate]   = useState(isPut ? entity.hasUpdate  : true);
-    const [hasDelete, setHasDelete]   = useState(isPut ? entity.hasDelete  : true);
+    const [hasRead   , setHasRead   ] = useState(isPut ? entity.hasRead    : true);
+    const [hasUpdate , setHasUpdate ] = useState(isPut ? entity.hasUpdate  : true);
+    const [hasDelete , setHasDelete ] = useState(isPut ? entity.hasDelete  : true);
 
-    //alert(initialBool)
-    //alert("c: " + hasCreate + " ra: " + hasReadAll + " r: " +hasRead + " u: " + hasUpdate + " d: " + hasDelete);
-    //alert("c: " + entity.hasCreate + " ra: " + entity.hasReadAll + " r: " + entity.hasRead + " u: " + entity.hasUpdate + " d: " + entity.hasDelete);
-    //alert(JSON.stringify(entity))
-
+    //console.log("AA c: " + hasCreate + " ra: " + hasReadAll + " r: " +hasRead + " u: " + hasUpdate + " d: " + hasDelete);
+    //console.log("BB c: " + entity.hasCreate + " ra: " + entity.hasReadAll + " r: " + entity.hasRead + " u: " + entity.hasUpdate + " d: " + entity.hasDelete);
 
     if (!open) return null;
 
@@ -76,12 +70,12 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     }
 
     const resetStates = (bool) => {
-        setName("");
-        setHasCreate(bool);
-        setHasReadAll(bool);
-        setHasRead(bool);
-        setHasUpdate(bool);
-        setHasDelete(bool);
+        //setName("");
+        //setHasCreate(bool);
+        //setHasReadAll(bool);
+        //setHasRead(bool);
+        //setHasUpdate(bool);
+        //setHasDelete(bool);
     }
 
     return ReactDom.createPortal(
