@@ -8,9 +8,7 @@ import CRUD from "../../api/CRUD";
 
 export default function EntityModal({ open, title, onClose, entities, setEntities, entity, modalMethod }) {
 
-
     let isPut = modalMethod === "PUT";
-
 
     const [name, setName] = useState(isPut ? entity.name : "");
 

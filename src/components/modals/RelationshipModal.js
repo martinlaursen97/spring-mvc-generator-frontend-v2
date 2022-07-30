@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -7,7 +7,6 @@ import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
 export default function RelationshipModal({ open, title, onClose, entity, setEntity, entities }) {
-
 
     entities = entities.filter(e => e.name !== entity.name);
 
@@ -98,5 +97,4 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
         ,
         document.getElementById("portal")
     );
-
 }

@@ -1,7 +1,6 @@
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import CRUD from "../../api/CRUD";
-import ProjectsModal from "../modals/ProjectsModal";
 import EntityModal from "../modals/EntityModal";
 import VariableList from "../VariableList";
 import RelationshipList from "../RelationshipList";
@@ -72,8 +71,6 @@ export default function Project(callback, deps) {
         setEntityIsOpen(true);
 
     }
-
-
 
     const createRelation = () => {
         setModalMethod("POST");

@@ -2,7 +2,6 @@ export default function EntityList({ entity, entities, setEntity }) {
 
     const loadEntity = e => {
         setEntity(e);
-
     }
 
     return (

@@ -1,6 +1,8 @@
 export default function VariableList({ entity }) {
+
     if (entity.variables === undefined) return null;
-    let variables = entity.variables;
+    let variables = entity.variables
+
     return (
         <div>
             { variables !== null ?

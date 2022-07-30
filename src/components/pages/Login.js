@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import CRUD from "../../api/CRUD.js";
-import {Link, Redirect, Route, Switch, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import SuccessBox from "../SuccessBox"
-
 
 export default function Login() {
     const [error, setError] = useState("");

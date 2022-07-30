@@ -17,7 +17,7 @@ export default function Projects() {
             .then(response => {
                 setProjects(response.data);
             })
-    }, [])
+    }, [userId])
 
     if (!authorized) {
         return <Redirect to="/login"/>
