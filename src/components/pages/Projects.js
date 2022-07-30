@@ -23,12 +23,12 @@ export default function Projects() {
         return <Redirect to="/login"/>
     }
 
-    const logout = (e) => {
+    const logout = () => {
         window.sessionStorage.clear();
         history.push("/login");
     }
 
-    const openModal = (e) => {
+    const openModal = () => {
         setIsOpen(true);
     }
 
