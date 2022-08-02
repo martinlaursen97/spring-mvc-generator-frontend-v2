@@ -14,7 +14,6 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
     const [dataType, setDataType] = useState("");
     const [columnName, setColumnName] = useState("");
     const [hasColumn, setHasColumn] = useState(false);
-    console.log(modalMethod)
 
     useEffect(() => {
         (async function() {

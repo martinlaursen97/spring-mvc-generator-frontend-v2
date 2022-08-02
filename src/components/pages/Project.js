@@ -7,6 +7,7 @@ import RelationshipList from "../RelationshipList";
 import EntityList from "../EntityList";
 import VariableModal from "../modals/VariableModal";
 import RelationshipModal from "../modals/RelationshipModal";
+import axios from "axios";
 
 export default function Project() {
 
@@ -65,6 +66,7 @@ export default function Project() {
     }
 
     const downloadProject = () => {
+        CRUD.downloadProjectById("projects/download", projectId);
 
     }
 
@@ -107,7 +109,7 @@ export default function Project() {
                 <EntityList entity={entity} entities={entities} setEntity={setEntity}/>
 
                 <div className="sidebar-heading w-100 position-absolute" style={{bottom:0, borderTop: '1px solid lightgrey'}}>
-                    <button onClick={downloadProject()} type="button" style={{height:80, width:200}} className="btn btn-outline-dark">
+                    <button onClick={downloadProject} type="button" style={{height:80, width:200}} className="btn btn-outline-dark">
                         Download project
                     </button>
                 </div>
