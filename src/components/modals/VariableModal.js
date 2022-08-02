@@ -80,7 +80,7 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
             <Form>
                 <Modal.Dialog>
                     <Modal.Header closeButton onClick={onClose}>
-                        <Modal.Title>{title}</Modal.Title>
+                        <Modal.Title>{isPut ? "Update: " + selectedVariable.name : title}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
