@@ -3,7 +3,7 @@ export default function VariableList({ entity, setModalMethod, setVariableIsOpen
     if (entity.variables === undefined) return null;
     let variables = entity.variables
 
-    const updateVariable = (variable) => {
+    const updateVariable = variable => {
         setModalMethod("PUT");
         setVariableIsOpen(true);
         setSelectedVariable(variable);

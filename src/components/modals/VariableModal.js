@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
-export default function VariableModal({ open, title, onClose, entity, setEntity, modalMethod, selectedVariable }) {
+export default function VariableModal({ open, title, onClose, entity, setEntity, setModalMethod, modalMethod, selectedVariable }) {
 
     let isPut = modalMethod === "PUT";
 
@@ -14,13 +14,14 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
     const [dataType, setDataType] = useState("");
     const [columnName, setColumnName] = useState("");
     const [hasColumn, setHasColumn] = useState(false);
+    console.log(modalMethod)
 
     useEffect(() => {
         (async function() {
             try {
-                setName (     isPut ? selectedVariable.name : true);
-                setDataType(  isPut ? selectedVariable.dataType : true);
-                setColumnName(isPut ? selectedVariable.columnName : true);
+                setName (     isPut ? selectedVariable.name : "");
+                setDataType(  isPut ? selectedVariable.dataType : "");
+                setColumnName(isPut ? selectedVariable.columnName : "");
                 //setHasColumn( isPut ? selectedVariable.name : true);
                 
             } catch (e) {
@@ -58,13 +59,14 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
                         setEntity(entity);
                     })
                     .then(resetStates)
-                    .then(onClose);
+                    .then(close);
             }
         }
     }
 
     const close = () => {
         resetStates(true);
+        setModalMethod("POST");
         onClose();
     }
 
@@ -79,7 +81,7 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
         <div className="overlay">
             <Form>
                 <Modal.Dialog>
-                    <Modal.Header closeButton onClick={onClose}>
+                    <Modal.Header closeButton onClick={close}>
                         <Modal.Title>{isPut ? "Update: " + selectedVariable.name : title}</Modal.Title>
                     </Modal.Header>
 
@@ -131,7 +133,7 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={onClose}>Close</Button>
+                        <Button variant="secondary" onClick={close}>Close</Button>
                         <Button variant="primary" type="submit" onClick={handleSubmit}>Save</Button>
                     </Modal.Footer>
                 </Modal.Dialog>

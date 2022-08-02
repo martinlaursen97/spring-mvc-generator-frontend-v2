@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -6,8 +6,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
-export default function RelationshipModal({ open, title, onClose, entity, setEntity, entities }) {
+export default function RelationshipModal({ open, title, onClose, entity, setEntity, entities, selectedRelationship, setModalMethod, modalMethod }) {
 
+    let isPut = modalMethod === "PUT";
+    
     entities = entities.filter(e => e.name !== entity.name);
 
     let name = entities[0] === undefined ? "undefined" : entities[0].name;
@@ -17,25 +19,48 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const [entityChoiceOnChange, setEntityChoiceOnChange] = useState("");
     const [fromDropdown, setFromDropdown] = useState(true);
 
+    useEffect(() => {
+        (async function() {
+            try {
+                setAnnotation(isPut ? selectedRelationship.annotation : "ManyToOne");
+                setEntityChoice(isPut ? selectedRelationship.relatedTo : name);
+                setEntityChoiceOnChange(isPut ? selectedRelationship.relatedTo : "");
+                setFromDropdown(!isPut);
+
+            } catch (e) {
+                console.error(e);
+            }
+        })();
+    }, [isPut, name, selectedRelationship.annotation, selectedRelationship.relatedTo]);
+
+
     if (!open) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let relation = {
-            entity: {
-                id: entity.id
-            },
-            annotation: annotation,
-            relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
-        };
+        if (isPut) {
+            selectedRelationship.annotation = annotation;
+            selectedRelationship.relatedTo = entityChoice;
 
-        await CRUD.create(relation, "relations")
-            .then(res => {
-                entity.relations.push(res.data)
-                setEntity(entity);
-            })
-            .then(close);
+            await CRUD.update(selectedRelationship, "relations", selectedRelationship.id)
+                .then(close);
+        } else {
+            let relation = {
+                entity: {
+                    id: entity.id
+                },
+                annotation: annotation,
+                relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
+            };
+
+            await CRUD.create(relation, "relations")
+                .then(res => {
+                    entity.relations.push(res.data)
+                    setEntity(entity);
+                })
+                .then(close);
+        }
     }
 
     const resetStates = () => {
@@ -46,6 +71,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
     const close = () => {
         resetStates();
+        setModalMethod("POST");
         onClose();
     }
 
@@ -54,7 +80,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
             <Form>
                 <Modal.Dialog>
                     <Modal.Header closeButton onClick={close}>
-                        <Modal.Title>{title}</Modal.Title>
+                        <Modal.Title>{isPut ? "Update relationship:" : title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <InputGroup className="mb-3">

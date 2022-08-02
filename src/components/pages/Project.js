@@ -15,13 +15,14 @@ export default function Project() {
     const [entities, setEntities] = useState([]);
 
     const [entity, setEntity] = useState({});
-    const [modalMethod, setModalMethod] = useState("");
+    const [modalMethod, setModalMethod] = useState("POST");
     const [entityIsOpen, setEntityIsOpen] = useState(false);
 
     const [variableIsOpen, setVariableIsOpen] = useState(false);
     const [relationshipIsOpen, setRelationshipIsOpen] = useState(false);
 
     const [selectedVariable, setSelectedVariable] = useState({});
+    const [selectedRelationship, setSelectedRelationship] = useState({});
 
     let projectId = localStorage.getItem("projectId");
 
@@ -90,8 +91,8 @@ export default function Project() {
         <div className="d-flex" id="wrapper">
 
             <EntityModal title={"New entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
-            <VariableModal title={"New variable"} entity={entity} modalMethod={modalMethod} selectedVariable={selectedVariable} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
-            <RelationshipModal title={"New relationship"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
+            <VariableModal title={"New variable"} entity={entity} setModalMethod={setModalMethod} modalMethod={modalMethod} selectedVariable={selectedVariable} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
+            <RelationshipModal title={"New relationship"} entity={entity} setModalMethod={setModalMethod} modalMethod={modalMethod} selectedRelationship={selectedRelationship} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 
             <div className="bg-light" id="sidebar-wrapper">
                 <div className="sidebar-heading">
@@ -144,7 +145,7 @@ export default function Project() {
                         +
                     </button>
 
-                    <RelationshipList entity={entity}/>
+                    <RelationshipList entity={entity} setModalMethod={setModalMethod} setSelectedRelationship={setSelectedRelationship} setRelationshipIsOpen={setRelationshipIsOpen}/>
 
                 </div>
             </div>
