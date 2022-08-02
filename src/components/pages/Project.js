@@ -125,7 +125,7 @@ export default function Project() {
                 <button onClick={updateEntity} type="button" className="btn btn-outline-dark btn-lg" style={{marginBottom: 30, marginLeft: 10}}>
                     Update
                 </button>
-                <button onClick={deleteCurrentEntity} type="button" className="btn btn-outline-danger btn-lg" style={{marginBottom: 30}}>
+                <button onClick={deleteCurrentEntity} type="button" className="btn btn-outline-danger btn-lg" style={{marginBottom: 30, marginLeft: 10}}>
                     Delete
                 </button>
 
