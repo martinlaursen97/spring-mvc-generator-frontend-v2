@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -6,35 +6,66 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CRUD from "../../api/CRUD";
 
-export default function VariableModal({ open, title, onClose, entity, setEntity }) {
+export default function VariableModal({ open, title, onClose, entity, setEntity, modalMethod, selectedVariable }) {
+
+    let isPut = modalMethod === "PUT";
+
     const [name, setName] = useState("");
     const [dataType, setDataType] = useState("");
     const [columnName, setColumnName] = useState("");
     const [hasColumn, setHasColumn] = useState(false);
 
+    useEffect(() => {
+        (async function() {
+            try {
+                setName (     isPut ? selectedVariable.name : true);
+                setDataType(  isPut ? selectedVariable.dataType : true);
+                setColumnName(isPut ? selectedVariable.columnName : true);
+                //setHasColumn( isPut ? selectedVariable.name : true);
+                
+            } catch (e) {
+                console.error(e);
+            }
+        })();
+    }, [isPut, selectedVariable.columnName, selectedVariable.dataType, selectedVariable.name]);
+    
     if (!open) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (name.length > 0 && dataType.length > 0) {
-            let variable = {
-                entity: {
-                    id: entity.id
-                },
-                name: name,
-                dataType: dataType,
-                columnName: columnName
-            };
+            if (isPut) {
+                selectedVariable.name = name;
+                selectedVariable.dataType = dataType;
+                selectedVariable.columnName = columnName;
 
-            await CRUD.create(variable, "variables")
-                .then(res => {
-                    entity.variables.push(res.data);
-                    setEntity(entity);
-                })
-                .then(resetStates)
-                .then(onClose);
+                await CRUD.update(selectedVariable, "variables", selectedVariable.id)
+                    .then(close);
+            } else {
+                let variable = {
+                    entity: {
+                        id: entity.id
+                    },
+                    name: name,
+                    dataType: dataType,
+                    columnName: columnName
+                };
+
+                await CRUD.create(variable, "variables")
+                    .then(res => {
+                        entity.variables.push(res.data);
+                        setEntity(entity);
+                    })
+                    .then(resetStates)
+                    .then(onClose);
+            }
         }
+    }
+
+    const close = () => {
+        resetStates(true);
+        onClose();
     }
 
     const resetStates = () => {

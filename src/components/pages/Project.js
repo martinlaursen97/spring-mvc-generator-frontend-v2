@@ -21,6 +21,8 @@ export default function Project() {
     const [variableIsOpen, setVariableIsOpen] = useState(false);
     const [relationshipIsOpen, setRelationshipIsOpen] = useState(false);
 
+    const [selectedVariable, setSelectedVariable] = useState({});
+
     let projectId = localStorage.getItem("projectId");
 
     useEffect(() => {
@@ -88,7 +90,7 @@ export default function Project() {
         <div className="d-flex" id="wrapper">
 
             <EntityModal title={"New entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
-            <VariableModal title={"New variable"} entity={entity} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
+            <VariableModal title={"New variable"} entity={entity} modalMethod={modalMethod} selectedVariable={selectedVariable} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
             <RelationshipModal title={"New relationship"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 
             <div className="bg-light" id="sidebar-wrapper">
@@ -130,7 +132,7 @@ export default function Project() {
                         +
                     </button>
 
-                    <VariableList entity={entity}/>
+                    <VariableList entity={entity} setModalMethod={setModalMethod} setSelectedVariable={setSelectedVariable} setVariableIsOpen={setVariableIsOpen}/>
 
                     <hr/>
 
