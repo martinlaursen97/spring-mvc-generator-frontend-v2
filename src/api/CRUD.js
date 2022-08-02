@@ -8,7 +8,7 @@ function getAll(resource) {
 function downloadProjectById(resource, id) {
     axios({
         url: `${baseUrl}${resource}/${id}`, //your url
-        method: 'POSt',
+        method: 'POST',
         responseType: 'blob', // important
     }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
