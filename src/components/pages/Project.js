@@ -36,6 +36,9 @@ export default function Project() {
                 let newArr = entities.filter(e => e.id !== entity.id);
                 setEntities(newArr);
                 setEntity(newArr[0]);
+                if (newArr.length === 0) {
+                    window.location.reload()
+                }
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,15 +87,7 @@ export default function Project() {
     return (
         <div className="d-flex" id="wrapper">
 
-            {
-                modalMethod === "PUT" ?
-                    <EntityModal title={"Update entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
-                    :
-
-                    <EntityModal title={"New entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
-
-            }
-
+            <EntityModal title={"New entity"} entity={entity} modalMethod={modalMethod} open={entityIsOpen} onClose={() => setEntityIsOpen(false)} entities={entities} setEntities={setEntities}/>
             <VariableModal title={"New variable"} entity={entity} open={variableIsOpen} setEntity={setEntity} onClose={() => setVariableIsOpen(false)}/>
             <RelationshipModal title={"New relationship"} entity={entity} open={relationshipIsOpen} setEntity={setEntity} onClose={() => setRelationshipIsOpen(false)} entities={entities}/>
 

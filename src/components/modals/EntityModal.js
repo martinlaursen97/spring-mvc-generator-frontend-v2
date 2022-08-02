@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useEffect} from "react";
+import useState from 'react-usestateref'
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -12,16 +13,25 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
 
     const [name, setName] = useState(isPut ? entity.name : "");
 
-    console.log(isPut ? entity.name : "")
+    const [hasCreate , setHasCreate ] = useState(false);
+    const [hasReadAll, setHasReadAll] = useState(false);
+    const [hasRead   , setHasRead   ] = useState(false);
+    const [hasUpdate , setHasUpdate ] = useState(false);
+    const [hasDelete , setHasDelete ] = useState(false);
 
-    const [hasCreate , setHasCreate ] = useState(isPut ? entity.hasCreate  : true);
-    const [hasReadAll, setHasReadAll] = useState(isPut ? entity.hasReadAll : true);
-    const [hasRead   , setHasRead   ] = useState(isPut ? entity.hasRead    : true);
-    const [hasUpdate , setHasUpdate ] = useState(isPut ? entity.hasUpdate  : true);
-    const [hasDelete , setHasDelete ] = useState(isPut ? entity.hasDelete  : true);
-
-    //console.log("AA c: " + hasCreate + " ra: " + hasReadAll + " r: " +hasRead + " u: " + hasUpdate + " d: " + hasDelete);
-    //console.log("BB c: " + entity.hasCreate + " ra: " + entity.hasReadAll + " r: " + entity.hasRead + " u: " + entity.hasUpdate + " d: " + entity.hasDelete);
+    useEffect(() => {
+        (async function() {
+            try {
+                setHasCreate (isPut ? entity.hasCreate  : true);
+                setHasReadAll(isPut ? entity.hasReadAll : true);
+                setHasRead   (isPut ? entity.hasRead    : true);
+                setHasUpdate (isPut ? entity.hasUpdate  : true);
+                setHasDelete (isPut ? entity.hasDelete  : true);
+            } catch (e) {
+                console.error(e);
+            }
+        })();
+    }, [entity.hasCreate, entity.hasDelete, entity.hasRead, entity.hasReadAll, entity.hasUpdate, isPut]);
 
     if (!open) return null;
 
@@ -48,7 +58,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                         entities.push(data);
                         setEntities(entities);
                     })
-                    .then(onClose);
+                    .then(close);
             } else {
                 entity.name = name;
                 entity.hasCreate = hasCreate;
@@ -58,7 +68,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                 entity.hasDelete = hasDelete;
 
                 await CRUD.update(entity, "entities", entity.id)
-                    .then(onClose);
+                    .then(close);
             }
             resetStates(true);
         }
@@ -71,18 +81,18 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
 
     const resetStates = (bool) => {
         setName("");
-        setHasCreate(bool);
-        setHasReadAll(bool);
-        setHasRead(bool);
-        setHasUpdate(bool);
-        setHasDelete(bool);
+        setHasCreate (isPut ? entity.hasCreate  : bool);
+        setHasReadAll(isPut ? entity.hasReadAll : bool);
+        setHasRead   (isPut ? entity.hasRead    : bool);
+        setHasUpdate (isPut ? entity.hasUpdate  : bool);
+        setHasDelete (isPut ? entity.hasDelete  : bool);
     }
 
     return ReactDom.createPortal(
         <div className="overlay">
             <Modal.Dialog>
                 <Modal.Header closeButton onClick={close}>
-                    <Modal.Title>{isPut ? entity.name : title}</Modal.Title>
+                    <Modal.Title>{isPut ? "Update entity: " + entity.name : title}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -99,12 +109,11 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                     </InputGroup>
 
 
-                    <Form.Check onChange={(e) => setHasCreate(e.target.checked)} checked={hasCreate} name="create" label="Create" inline/>
+                    <Form.Check onChange={(e) => setHasCreate(e.target.checked)}  checked={hasCreate }  name="create" label="Create" inline/>
                     <Form.Check onChange={(e) => setHasReadAll(e.target.checked)} checked={hasReadAll} name="readAll" label="ReadAll" inline/>
-                    <Form.Check onChange={(e) => setHasRead(e.target.checked)} checked={hasRead} name="read" label="Read" inline/>
-                    <Form.Check onChange={(e) => setHasUpdate(e.target.checked)} checked={hasUpdate} name="update" label="Update" inline/>
-                    <Form.Check onChange={(e) => setHasDelete(e.target.checked)} checked={hasDelete} name="delete" label="Delete" inline/>
-
+                    <Form.Check onChange={(e) => setHasRead(e.target.checked)}    checked={hasRead   }    name="read" label="Read" inline/>
+                    <Form.Check onChange={(e) => setHasUpdate(e.target.checked)}  checked={hasUpdate }  name="update" label="Update" inline/>
+                    <Form.Check onChange={(e) => setHasDelete(e.target.checked)}  checked={hasDelete }  name="delete" label="Delete" inline/>
 
                 </Modal.Body>
 
