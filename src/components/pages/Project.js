@@ -7,7 +7,6 @@ import RelationshipList from "../RelationshipList";
 import EntityList from "../EntityList";
 import VariableModal from "../modals/VariableModal";
 import RelationshipModal from "../modals/RelationshipModal";
-import axios from "axios";
 
 export default function Project() {
 

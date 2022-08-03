@@ -12,6 +12,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     let isPut = modalMethod === "PUT";
 
     const [name, setName] = useState(isPut ? entity.name : "");
+    const prevName = isPut ? entity.name : "";
 
     const [hasCreate , setHasCreate ] = useState(false);
     const [hasReadAll, setHasReadAll] = useState(false);
@@ -60,6 +61,9 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                     })
                     .then(close);
             } else {
+
+
+
                 entity.name = name;
                 entity.hasCreate = hasCreate;
                 entity.hasReadAll = hasReadAll;
@@ -68,6 +72,22 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                 entity.hasDelete = hasDelete;
 
                 await CRUD.update(entity, "entities", entity.id)
+                    .then(async () => {
+                        // Update dependencies
+                        if (entities.length > 1) {
+                            for (let i = 0; i < entities.length; i++) {
+                                if (entities[i].relations.length > 0 && entities[i].relations !== null) {
+                                    for (let j = 0; j < entities[i].relations.length; j++) {
+                                        let relatedToDependency = entities[i].relations[j].relatedTo;
+                                        if (relatedToDependency === prevName) {
+                                            entities[i].relations[j].relatedTo = name;
+                                            await CRUD.update(entities[i], "entities", entities[i].id)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
                     .then(close);
             }
             resetStates(true);
