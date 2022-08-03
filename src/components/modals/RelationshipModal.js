@@ -77,6 +77,9 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
             await CRUD.create(relation, "relations")
                 .then(res => {
+                    if (entity.relations === null) {
+                        entity.relations = [];
+                    }
                     entity.relations.push(res.data)
                     setEntity(entity);
                 })

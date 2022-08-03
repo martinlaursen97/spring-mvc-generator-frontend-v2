@@ -77,9 +77,13 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
 
                 await CRUD.create(variable, "variables")
                     .then(res => {
+                        if (entity.variables === null) {
+                            entity.variables = [];
+                        }
                         entity.variables.push(res.data);
                         setEntity(entity);
                     })
+
                     .then(resetStates)
                     .then(close);
             }
