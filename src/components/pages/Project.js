@@ -41,7 +41,8 @@ export default function Project() {
                 setEntities(newArr);
                 setEntity(newArr[0]);
                 if (newArr.length === 0) {
-                    window.location.reload()
+                    setEntities([]);
+                    setEntity({})
                 }
             });
         }
