@@ -86,6 +86,7 @@ export default function Project() {
     }
 
     const createVariable = () => {
+        setModalMethod("POST");
         setVariableIsOpen(true);
     }
 

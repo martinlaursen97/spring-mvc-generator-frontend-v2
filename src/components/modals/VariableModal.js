@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -15,6 +15,19 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
     const [columnName, setColumnName] = useState("");
     const [hasColumn, setHasColumn] = useState(false);
 
+    const close = () => {
+        resetStates(true);
+        setModalMethod("POST");
+        onClose();
+    }
+
+    const resetStates = () => {
+        setName("");
+        setDataType("");
+        setColumnName("");
+        setHasColumn(false);
+    }
+
     useEffect(() => {
         (async function() {
             try {
@@ -28,6 +41,16 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
             }
         })();
     }, [isPut, selectedVariable.columnName, selectedVariable.dataType, selectedVariable.name]);
+
+    const remove = useCallback( async () => {
+        CRUD.remove("variables", selectedVariable.id)
+            .then(() => {
+                entity.variables = entity.variables.filter(v => v.id !== selectedVariable.id);
+                setEntity(entity);
+            })
+            .then(resetStates)
+            .then(onClose);
+    }, [entity, onClose, selectedVariable.id, setEntity])
     
     if (!open) return null;
 
@@ -62,20 +85,8 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
             }
         }
     }
-
-    const close = () => {
-        resetStates(true);
-        setModalMethod("POST");
-        onClose();
-    }
-
-    const resetStates = () => {
-        setName("");
-        setDataType("");
-        setColumnName("");
-        setHasColumn(false);
-    }
-
+    
+    
     return ReactDom.createPortal(
         <div className="overlay">
             <Form>
@@ -132,6 +143,12 @@ export default function VariableModal({ open, title, onClose, entity, setEntity,
                     </Modal.Body>
 
                     <Modal.Footer>
+                        {
+                            isPut ?
+                                <Button variant="danger" onClick={remove}>Delete</Button>
+                                :
+                                <p/>
+                        }
                         <Button variant="secondary" onClick={close}>Close</Button>
                         <Button variant="primary" type="submit" onClick={handleSubmit}>Save</Button>
                     </Modal.Footer>
