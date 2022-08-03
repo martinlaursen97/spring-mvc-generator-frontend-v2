@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import ReactDom from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import {InputGroup} from "react-bootstrap";
@@ -18,6 +18,18 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const [entityChoice, setEntityChoice] = useState(name);
     const [entityChoiceOnChange, setEntityChoiceOnChange] = useState("");
     const [fromDropdown, setFromDropdown] = useState(true);
+    
+    const close = () => {
+        resetStates();
+        setModalMethod("POST");
+        onClose();
+    }
+    
+    const resetStates = () => {
+        setAnnotation("ManyToOne");
+        setEntityChoice(name);
+        //setFromDropdown(true);
+    }
 
     useEffect(() => {
         (async function() {
@@ -32,6 +44,15 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
             }
         })();
     }, [isPut, name, selectedRelationship.annotation, selectedRelationship.relatedTo]);
+
+    const remove = useCallback( async () => {
+        CRUD.remove("relations", selectedRelationship.id)
+            .then(() => {
+                entity.relations = entity.relations.filter(r => r.id !== selectedRelationship.id);
+                setEntity(entity);
+            })
+            .then(onClose);
+    }, [entity, onClose, selectedRelationship.id, setEntity])
 
 
     if (!open) return null;
@@ -61,18 +82,6 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                 })
                 .then(close);
         }
-    }
-
-    const resetStates = () => {
-        setAnnotation("ManyToOne");
-        setEntityChoice(name);
-        //setFromDropdown(true);
-    }
-
-    const close = () => {
-        resetStates();
-        setModalMethod("POST");
-        onClose();
     }
 
     return ReactDom.createPortal(
@@ -114,6 +123,12 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                     </Modal.Body>
 
                     <Modal.Footer>
+                        {
+                            isPut ?
+                                <Button variant="danger" onClick={remove}>Delete</Button>
+                                :
+                                <p/>
+                        }
                         <Button variant="secondary" onClick={close}>Close</Button>
                         <Button variant="primary" type="submit" onClick={handleSubmit}>Save</Button>
                     </Modal.Footer>
