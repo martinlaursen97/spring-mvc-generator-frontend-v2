@@ -50,10 +50,18 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
         return false;
     }
 
+    const emptyName = n => {
+        if (n.length === 0) {
+            setError("Empty input")
+            return true;
+        }
+        return false;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (name.length > 0) {
+        if (!emptyName(name)) {
             if (!nameTaken(name)) {
                 if (modalMethod === "POST") {
                     let entity = {
