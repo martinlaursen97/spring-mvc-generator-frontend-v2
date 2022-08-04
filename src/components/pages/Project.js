@@ -66,7 +66,9 @@ export default function Project() {
     }
 
     const downloadProject = () => {
-        CRUD.downloadProjectById("projects/download", projectId);
+        if (entities.length > 0) {
+            CRUD.downloadProjectById("projects/download", projectId);
+        }
 
     }
 
