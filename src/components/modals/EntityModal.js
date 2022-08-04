@@ -41,6 +41,9 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     const nameTaken = n => {
         if (entities.length > 0) {
             for (let i = 0; i < entities.length; i++) {
+                if (entities[i].name === prevName) {
+                    return false;
+                }
                 if (entities[i].name === n) {
                     setError("Name already taken")
                     return true;
@@ -52,7 +55,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
 
     const emptyName = n => {
         if (n.length === 0) {
-            setError("Empty input")
+            setError("Input missing")
             return true;
         }
         return false;
