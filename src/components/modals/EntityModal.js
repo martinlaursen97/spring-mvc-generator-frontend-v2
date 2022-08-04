@@ -11,7 +11,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
 
     let isPut = modalMethod === "PUT";
 
-    const [name, setName] = useState(isPut ? entity.name : "");
+    const [name, setName] = useState("");
     const prevName = isPut ? entity.name : "";
 
     const [hasCreate , setHasCreate ] = useState(false);
@@ -25,6 +25,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     useEffect(() => {
         (async function() {
             try {
+                setName(isPut ? entity.name : "");
                 setHasCreate (isPut ? entity.hasCreate  : true);
                 setHasReadAll(isPut ? entity.hasReadAll : true);
                 setHasRead   (isPut ? entity.hasRead    : true);
@@ -125,7 +126,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     }
 
     const resetStates = (bool) => {
-        setName("");
+        setName(isPut ? entity.name : "");
         setHasCreate (isPut ? entity.hasCreate  : bool);
         setHasReadAll(isPut ? entity.hasReadAll : bool);
         setHasRead   (isPut ? entity.hasRead    : bool);
