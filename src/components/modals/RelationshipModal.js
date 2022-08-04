@@ -40,7 +40,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                 setAnnotation(isPut ? selectedRelationship.annotation : "ManyToOne");
                 setEntityChoice(isPut ? selectedRelationship.relatedTo : name);
                 setEntityChoiceOnChange(isPut ? selectedRelationship.relatedTo : "");
-                setFromDropdown(!isPut);
+                setFromDropdown(true);
 
             } catch (e) {
                 console.error(e);
@@ -74,6 +74,8 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
         return false;
     }
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -118,7 +120,7 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                     <Modal.Body>
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="inputGroup-sizing-default1">Annotation</InputGroup.Text>
-                            <Form.Select onClick={e => setAnnotation(e.target.value)} aria-label="Default select example">
+                            <Form.Select value={annotation} onChange={e => setAnnotation(e.target.value)}>
                                 <option value="ManyToOne">ManyToOne</option>
                                 <option value="OneToMany">OneToMany</option>
                                 <option value="OneToOne">OneToOne</option>
@@ -128,10 +130,9 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                         { fromDropdown ?
                             <InputGroup className="mb-3">
                                 <InputGroup.Text id="inputGroup-sizing-default2">Entity</InputGroup.Text>
-                                <Form.Select onClick={e => setEntityChoice(e.target.value)}
-                                             aria-label="Default select example">
-                                    {entities.map(e =>
-                                        <option value={e.name}>{e.name}</option>
+                                <Form.Select value={entityChoice} onChange={e => setEntityChoice(e.target.value)}>
+                                    {entities.map((e, index) =>
+                                        <option key={index} value={e.name}>{e.name}</option>
                                     )}
                                 </Form.Select>
                             </InputGroup>
