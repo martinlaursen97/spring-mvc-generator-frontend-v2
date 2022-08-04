@@ -39,7 +39,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
     if (!open) return null;
 
     const nameTaken = n => {
-        if (entities.length > 1) {
+        if (entities.length > 0) {
             for (let i = 0; i < entities.length; i++) {
                 if (entities[i].name === n) {
                     setError("Name already taken")
