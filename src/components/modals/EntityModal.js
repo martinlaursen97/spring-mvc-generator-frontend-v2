@@ -35,7 +35,7 @@ export default function EntityModal({ open, title, onClose, entities, setEntitie
                 console.error(e);
             }
         })();
-    }, [entity.hasCreate, entity.hasDelete, entity.hasRead, entity.hasReadAll, entity.hasUpdate, isPut]);
+    }, [entity.hasCreate, entity.hasDelete, entity.hasRead, entity.hasReadAll, entity.hasUpdate, entity.name, isPut]);
 
     if (!open) return null;
 
