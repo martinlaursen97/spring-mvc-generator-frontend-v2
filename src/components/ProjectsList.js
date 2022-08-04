@@ -12,8 +12,8 @@ export default function ProjectsList({ projects }) {
 
     return (
         <div>
-            {projects.map(p =>
-                <div key={p.id} className="list-group-item list-group-item-action" onClick={() => loadProject(p.id)}>{p.name}</div>
+            {projects.map((p, index) =>
+                <div key={index} className="list-group-item list-group-item-action" onClick={() => loadProject(p.id)}>{p.name}</div>
             )}
         </div>
     )

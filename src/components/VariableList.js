@@ -13,8 +13,8 @@ export default function VariableList({ entity, setModalMethod, setVariableIsOpen
         <div>
             { variables !== null ?
                 <div className="list-group">
-                    {variables.map(v =>
-                        <div key={v.id} className="list-group-item list-group-item-action" onClick={() => updateVariable(v)}>
+                    {variables.map((v, index) =>
+                        <div key={index} className="list-group-item list-group-item-action" onClick={() => updateVariable(v)}>
                             private {v.dataType} {v.name}
                         </div>
                     )}

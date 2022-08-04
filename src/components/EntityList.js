@@ -6,8 +6,8 @@ export default function EntityList({ entity, entities, setEntity }) {
 
     return (
         <div className="list-group">
-            {entities.map(e =>
-                <div key={e.id} className={`list-group-item list-group-item-action ${e === entity ? "active" : ""}`} onClick={() => loadEntity(e)}>{e.name}</div>
+            {entities.map((e, index) =>
+                <div key={index} className={`list-group-item list-group-item-action ${e === entity ? "active" : ""}`} onClick={() => loadEntity(e)}>{e.name}</div>
             )}
         </div>
     );

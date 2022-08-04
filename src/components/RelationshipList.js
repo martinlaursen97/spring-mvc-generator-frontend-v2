@@ -13,8 +13,8 @@ export default function RelationshipList({ entity, setModalMethod, setRelationsh
         <div>
             {relations !== null ?
                 <div className="list-group">
-                    {relations.map(r =>
-                        <div key={r.id} className="list-group-item list-group-item-action" onClick={() => updateRelationship(r)}>
+                    {relations.map((r, index) =>
+                        <div key={index} className="list-group-item list-group-item-action" onClick={() => updateRelationship(r)}>
                             {r.annotation} {r.relatedTo}
                         </div>
                     )}
