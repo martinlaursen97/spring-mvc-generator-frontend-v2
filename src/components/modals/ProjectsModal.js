@@ -6,7 +6,7 @@ import {useState} from "react";
 import {InputGroup} from "react-bootstrap";
 import CRUD from "../../api/CRUD";
 
-export default function ProjectsModal({ open, title, onClose, projects, setProjects }) {
+export default function ProjectsModal({ open, modalMethod, title, onClose, projects, setProjects }) {
     const [name, setName] = useState("");
 
     if (!open) return null;

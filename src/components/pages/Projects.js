@@ -12,6 +12,8 @@ export default function Projects() {
     const [isOpen, setIsOpen] = useState(false);
     const [projects, setProjects] = useState([]);
 
+    const [modalMethod, setModalMethod] = useState("POST");
+
     useEffect(() => {
         CRUD.getAll(`projects/user/${userId}`)
             .then(response => {
@@ -36,7 +38,7 @@ export default function Projects() {
         <div>
             <Link type="button" id="top-right-href" onClick={logout}>Logout</Link>
 
-            <ProjectsModal title={"New project"} open={isOpen} projects={projects} setProjects={setProjects} onClose={() => setIsOpen(false)}/>
+            <ProjectsModal title={"New project"} modalMethod={modalMethod} open={isOpen} projects={projects} setProjects={setProjects} onClose={() => setIsOpen(false)}/>
 
             <div className="container shadow p-3 mb-5 bg-white rounded w-50 p-4 " style={{marginTop: 200}}>
                 <h1 className="display-6 p-1" style={{display: 'inline-block'}}>Projects</h1>
