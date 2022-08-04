@@ -12,13 +12,15 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     
     entities = entities.filter(e => e.name !== entity.name);
 
-    let name = entities[0] === undefined ? "undefined" : entities[0].name;
+    let name = entities[0] === undefined ? "" : entities[0].name;
 
     const [annotation, setAnnotation] = useState("ManyToOne");
     const [entityChoice, setEntityChoice] = useState(name);
     const [entityChoiceOnChange, setEntityChoiceOnChange] = useState("");
     const [fromDropdown, setFromDropdown] = useState(true);
-    
+
+    const [error, setError] = useState("");
+
     const close = () => {
         resetStates();
         setModalMethod("POST");
@@ -28,7 +30,8 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
     const resetStates = () => {
         setAnnotation("ManyToOne");
         setEntityChoice(name);
-        //setFromDropdown(true);
+        setEntityChoiceOnChange("");
+        setError("");
     }
 
     useEffect(() => {
@@ -57,33 +60,51 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
 
     if (!open) return null;
 
+    const emptyEntityInput = () => {
+
+        if (entityChoice.length === 0 && fromDropdown) {
+            setError("Empty input");
+            return true;
+        }
+
+        if (entityChoiceOnChange.length === 0 && !fromDropdown) {
+            setError("Empty input");
+            return true;
+        }
+
+        return false;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (isPut) {
-            selectedRelationship.annotation = annotation;
-            selectedRelationship.relatedTo = entityChoice;
+        if (!emptyEntityInput()) {
 
-            await CRUD.update(selectedRelationship, "relations", selectedRelationship.id)
-                .then(close);
-        } else {
-            let relation = {
-                entity: {
-                    id: entity.id
-                },
-                annotation: annotation,
-                relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
-            };
+            if (isPut) {
+                selectedRelationship.annotation = annotation;
+                selectedRelationship.relatedTo = entityChoice;
 
-            await CRUD.create(relation, "relations")
-                .then(res => {
-                    if (entity.relations === null) {
-                        entity.relations = [];
-                    }
-                    entity.relations.push(res.data)
-                    setEntity(entity);
-                })
-                .then(close);
+                await CRUD.update(selectedRelationship, "relations", selectedRelationship.id)
+                    .then(close);
+            } else {
+                let relation = {
+                    entity: {
+                        id: entity.id
+                    },
+                    annotation: annotation,
+                    relatedTo: fromDropdown ? entityChoice : entityChoiceOnChange
+                };
+
+                await CRUD.create(relation, "relations")
+                    .then(res => {
+                        if (entity.relations === null) {
+                            entity.relations = [];
+                        }
+                        entity.relations.push(res.data)
+                        setEntity(entity);
+                    })
+                    .then(close);
+            }
         }
     }
 
@@ -119,13 +140,20 @@ export default function RelationshipModal({ open, title, onClose, entity, setEnt
                                 <InputGroup.Text id="inputGroup-sizing-default3">
                                     Entity
                                 </InputGroup.Text>
-                                <Form.Control onChange={e => setEntityChoiceOnChange(e.target.value)} value={entityChoiceOnChange}/>
+                                <Form.Control onChange={e => {
+                                    setError("");
+                                    setEntityChoiceOnChange(e.target.value)}} value={entityChoiceOnChange}/>
                             </InputGroup>
                         }
                         <Form.Check onChange={(e) => setFromDropdown(e.target.checked)} checked={fromDropdown}  label="Choose from dropdown?" inline/>
                     </Modal.Body>
 
                     <Modal.Footer>
+                        {error !== "" ?
+                            <p className={"error"}>{error}</p>
+                            :
+                            <p/>
+                        }
                         {
                             isPut ?
                                 <Button variant="danger" onClick={remove}>Delete</Button>
