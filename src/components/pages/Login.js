@@ -6,7 +6,7 @@ import SuccessBox from "../SuccessBox"
 
 export default function Login() {
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState(false);
+
     const [details, setDetails] = useState({email: "", password: ""});
     let history = useHistory();
 
@@ -15,18 +15,13 @@ export default function Login() {
 
     const login = async () => {
         await CRUD.create(details, "users/verify").then(res => {
-            setSuccess(true);
             let data = res.data;
             window.sessionStorage.setItem("userId", data.id);
+            history.push("/projects", { authorized: true });
         })
         .catch((error) => {
             setError("Incorrect details.");
         });
-    }
-
-    if (success) {
-
-        history.push("/projects", { authorized: true });
     }
 
     const submitHandler = async e => {
@@ -49,7 +44,7 @@ export default function Login() {
                     {error !== "" ?
                         <ErrorMessage message={"Error"}/>:<p/>
                     }
-                <form onSubmit={() => submitHandler}>
+                <form onSubmit={(e) => submitHandler(e)}>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="email">Email:</label>
                         <input className="form-control" required={true} type="email" name="email" id="email" onChange=
