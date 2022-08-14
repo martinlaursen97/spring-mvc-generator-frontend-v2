@@ -49,7 +49,7 @@ export default function Login() {
                     {error !== "" ?
                         <ErrorMessage message={"Error"}/>:<p/>
                     }
-                <form onSubmit={submitHandler}>
+                <form onSubmit={() => submitHandler}>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="email">Email:</label>
                         <input className="form-control" required={true} type="email" name="email" id="email" onChange=
