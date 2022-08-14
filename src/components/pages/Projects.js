@@ -42,7 +42,7 @@ export default function Projects() {
             <div className="container shadow p-3 mb-5 bg-white rounded w-50 p-4 " style={{marginTop: 200}}>
                 <h1 className="display-6 p-1" style={{display: 'inline-block'}}>Projects</h1>
 
-                <button onClick={() => openModal} type="button" className="btn btn-outline-dark btn-lg"
+                <button onClick={openModal} type="button" className="btn btn-outline-dark btn-lg"
                         style={{float: 'right'}}>+
                 </button>
 
