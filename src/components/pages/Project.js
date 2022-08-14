@@ -118,7 +118,7 @@ export default function Project() {
                 </div>
             </div>
 
-            <Link type="button" id="top-right-href" onClick={projects}>Projects</Link>
+            <Link type="button" id="top-right-href" onClick={projects} to={"/projects"}>Projects</Link>
 
             { entities.length > 0 ?
             <div className="container" id="content" style={{maxWidth: 900}}>
